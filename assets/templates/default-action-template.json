@@ -1,0 +1,188 @@
+{
+  "templateId": "codex-cat-hatcher-default",
+  "templateName": "Codex Cat Hatcher Default",
+  "purpose": "Default action template for Codex Cat Hatcher realistic cat-photo pets.",
+  "style": {
+    "preset": "auto",
+    "notes": "Realistic photo-derived domestic cat. Preserve the input cat's face, coat markings, eye color, ear shape, whiskers, and proportions. Avoid cartoon, sticker, plush, toy, or painterly style unless the user explicitly asks."
+  },
+  "loopPolicy": {
+    "motionScale": "cute and compact",
+    "endMatchesStart": true,
+    "avoidDetachedEffects": true,
+    "avoidPropsByDefault": true,
+    "notes": "Keep all actions readable but not large. No speed lines, dust, floating tears, sparkles, shadows, text, UI, or loose artifacts."
+  },
+  "lookDirectionPolicy": {
+    "cardinalConstraints": {
+      "000": "Unmistakably looking up at final 192x208 size: pitch the whole head upward, put the nose tip above head center, expose the lower muzzle/chin, lift the eyelids, and keep the original irises high inside the original eye apertures; never use a neutral/front head.",
+      "090": "Unmistakably screen-right in viewer coordinates: nose tip and visible pupils cross to the screen-right side of head center.",
+      "180": "Unmistakably looking down at final 192x208 size: bow the whole head, put the nose tip below head center, show more crown, and lower the original irises inside the original eye apertures; never use a neutral/front head.",
+      "270": "Unmistakably screen-left in viewer coordinates: nose tip and visible pupils cross to the screen-left side of head center."
+    },
+    "sharedConstraints": [
+      "Keep the paws, lower torso, apparent scale, baseline, skull width, eye spacing, and body registration fixed across directions.",
+      "Preserve the cat's original physical eye construction; redraw eye surfaces, irises, pupils, eyelids, rims, and highlights coherently instead of adding replacement or detached eyes.",
+      "Judge every cardinal at normal 192x208 display size before generating either eight-direction row."
+    ]
+  },
+  "sharedActionGroups": [
+    {
+      "id": "paw-wave",
+      "canonicalState": "jumping",
+      "states": [
+        "waving",
+        "jumping"
+      ],
+      "deriveTargets": [
+        "waving"
+      ],
+      "copyPolicy": "Generate the canonical state once, then deterministically derive target rows from its approved extracted frames while adapting to each target state's required frame count."
+    }
+  ],
+  "rows": [
+    {
+      "row": 0,
+      "state": "idle",
+      "usedColumns": 6,
+      "action": "Cat sleeps in a compact curled/loaf-like pose with one paw covering both eyes.",
+      "motion": "Subtle breathing plus small paw/head movement; not every frame should look identical.",
+      "constraints": [
+        "head remains low",
+        "one paw covers both eyes",
+        "loop returns to the same sleeping pose",
+        "head on the left, tail on the right",
+        "absolutely no cast shadow, contact shadow, floor patch, grounding ellipse, ambient-occlusion patch, reflection, halo, glow, or soft pixels beneath or around the cat",
+        "flat chroma background touches the outer fur silhouette everywhere outside the cat"
+      ]
+    },
+    {
+      "row": 1,
+      "state": "running-right",
+      "usedColumns": 8,
+      "action": "Small realistic directional run or trot toward screen-right.",
+      "motion": "Readable alternating trot cadence through extended and compressed stride phases; preserve a stable apparent body size and baseline and never reset into a standing, sitting, or loaf pose.",
+      "constraints": [
+        "face and body point right",
+        "all eight frames belong to one coherent gait cycle",
+        "no speed lines",
+        "no detached dust or shadow"
+      ]
+    },
+    {
+      "row": 2,
+      "state": "running-left",
+      "usedColumns": 8,
+      "action": "Small realistic directional run or trot toward screen-left.",
+      "motion": "Derive by mirroring clean extracted running-right frames when the cat has no asymmetric props.",
+      "constraints": [
+        "face and body point left",
+        "preserve frame order",
+        "overwrite transparent pixels when patching atlas rows"
+      ]
+    },
+    {
+      "row": 3,
+      "state": "waving",
+      "usedColumns": 4,
+      "action": "Cat sits or stands and gives a small cute paw wave.",
+      "motion": "Paw raises, waves slightly, then returns.",
+      "constraints": [
+        "no wave marks",
+        "no floating effects",
+        "final frame returns near first frame"
+      ]
+    },
+    {
+      "row": 4,
+      "state": "jumping",
+      "usedColumns": 5,
+      "action": "Cat sits or stands and gives a small cute paw wave.",
+      "motion": "Paw raises, waves slightly, then returns.",
+      "constraints": [
+        "no wave marks",
+        "no floating effects",
+        "final frame returns near first frame"
+      ]
+    },
+    {
+      "row": 5,
+      "state": "failed",
+      "usedColumns": 8,
+      "action": "Cat makes a sad or crying face.",
+      "motion": "Gradual expression change, drooped ears/head, and subtle body sink, followed by a smooth return to the opening pose.",
+      "constraints": [
+        "tears must stay attached to the face/fur silhouette",
+        "keep apparent body size, head size, torso width, and baseline stable throughout the loop",
+        "do not redraw the cat progressively larger or smaller during the slump",
+        "no floating symbols",
+        "no red X"
+      ]
+    },
+    {
+      "row": 6,
+      "state": "waiting",
+      "usedColumns": 6,
+      "action": "Cat shows off belly or stares at the user expectantly.",
+      "motion": "Small blink, tiny head movement, or gentle belly pose shift.",
+      "constraints": [
+        "cute and attention-getting",
+        "distinct from idle",
+        "no props"
+      ]
+    },
+    {
+      "row": 7,
+      "state": "running",
+      "usedColumns": 6,
+      "action": "Active working state: cat sits and licks fur.",
+      "motion": "Small repeated grooming motion.",
+      "constraints": [
+        "not literal sprinting",
+        "no workspace/UI objects",
+        "loop stays contained"
+      ]
+    },
+    {
+      "row": 8,
+      "state": "review",
+      "usedColumns": 6,
+      "action": "Cat holds a small focused cute review pose.",
+      "motion": "Small blink, head tilt, or attentive posture shift.",
+      "constraints": [
+        "no magnifier, papers, code, or UI props"
+      ]
+    },
+    {
+      "row": 9,
+      "state": "look-directions-a",
+      "usedColumns": 8,
+      "action": "First half of 16-direction look loop: 000 through 157.5 degrees.",
+      "motion": "Rotate gaze/head/body direction while preserving identity.",
+      "constraints": [
+        "000 is unmistakably up at final 192x208 size: whole head pitches upward, nose is above head center, lower muzzle and chin are exposed, original irises are high inside the original eye apertures, and eyelids lift; never neutral/front",
+        "screen-right yaw increases monotonically from 000 through 090",
+        "after 090, downward pitch increases monotonically through 157.5 toward 180",
+        "keep paws, lower torso, apparent scale, baseline, skull width, and eye spacing fixed",
+        "continuous clockwise family"
+      ]
+    },
+    {
+      "row": 10,
+      "state": "look-directions-b",
+      "usedColumns": 8,
+      "action": "Second half of 16-direction look loop: 180 through 337.5 degrees.",
+      "motion": "Continue the same look-direction family.",
+      "constraints": [
+        "preserve row 9 identity",
+        "180 is unmistakably down at final 192x208 size: whole head bows, nose is below head center, more crown is visible, and the original irises sit low inside the original eye apertures; never neutral/front",
+        "202.5 through 337.5 remain on the screen-left side of head center until the 000 boundary",
+        "use one monotonic screen-left yaw trajectory: 202.5 slight, 225 moderate, 247.5 strong, 270 maximum, 292.5 strong, 315 moderate, 337.5 slight",
+        "rise gradually from maximum down at 180 to level at 270 and then toward the approved 000-up pose",
+        "keep paws, lower torso, apparent scale, baseline, skull width, and eye spacing fixed",
+        "continuous clockwise family",
+        "all cells used"
+      ]
+    }
+  ]
+}

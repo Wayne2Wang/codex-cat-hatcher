@@ -1,0 +1,6 @@
+output
+.reinstall-backups/
+__pycache__/
+.DS_Store
+.venv/
+*.tmp
